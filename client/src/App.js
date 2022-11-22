@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Register from './components/Register';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
     <Routes>
       <Route index element={<Login />} />
       <Route path="Register" element={<Register />} />
+      <Route path="Dashboard" element={<Dashboard />} />
     </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import './style.css'
+import { Axios } from "axios";
 
 
 
@@ -9,14 +10,35 @@ function Login() {
     const [password, setpassword] = useState('')
     const [validasi, setValidasi] = useState('')
     const [validsi,  setValidsi]  = useState('')
+    let navigate = useNavigate();
 
     const Login = () => {
         if(username === '') {
             setValidasi('Username harus diisi')
         }else if(password ==='') {
             setValidsi('Password Harus Di Isi')
+        }else {
+            Axios.post("http://localhost:3000/login", {
+                username: username,
+                password: password,
+            }).then((response) => {
+                if (response.data.massage) {
+                    setValidasi(response.data.massage);
+                }else {
+                    sessionStorage.setItem('token', response.data);
+                    navigate('/dashboard');
+                }
+            });
         }
     }
+
+    useEffect(() => {
+        if (sessionStorage.getItem('token') === null) {
+            navigate('/');
+        }else {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
     return ( 
         <>
         <div className="Container">
