@@ -11,8 +11,8 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route index element={<Login />} />
-      <Route path="Register" element={<Register />} />
-      <Route path="Dashboard" element={<Dashboard />} />
+      <Route path="/Register" element={<Register />} />
+      <Route path="/Dashboard" element={<Dashboard />} />
     </Routes>
     </BrowserRouter>
   );

@@ -1,72 +1,92 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import Axios from 'axios';
+import { useState } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
+import './style.css';
+import Axios from "axios";
 
-
+Axios.defaults.withCredentials = true;
 
 function Register() {
-    const [username, setUsername] = useState('')
-    const [password, setpassword] = useState('')
-    const [validasi, setValidasi] = useState('')
-    const [validsi,  setValidsi]  = useState('')
-    const [vldsi, setVldsi] = useState('')
-    const [nama, setnama] = useState('')
 
-    const Register = () => {
-        if(username === '') {
-            setValidasi('Please Check Your Username');
-        }else if(password ==='') {
-            setValidsi('Please Check Your Password')
-        }else if(nama ===''){
-            setVldsi('Please Check Your Name')
-        }else {
-            // console.log(username,password,nama);
-            Axios.post("http://localhost:3001/register",{
+    // State Username, Login & Password
+    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [wrongname, setWrongname] = useState('');
+    const [wronguser, setWronguser] = useState('');
+    const [wrongpass, setWrongpass] = useState('');
+    let Navigate = useNavigate();
+
+    const register = () => {
+        // console.log (username, password);
+        
+        // Cek Username & Password
+        if (name === '') {
+            setWrongname('Please enter your name!')
+        }
+
+        else if (username === '') {
+            setWronguser('Please enter your username!')
+            setWrongname('')
+        }
+        
+        else if (password === '') {
+            setWrongpass('Please enter your password!')
+            setWronguser('')
+        }
+
+        else {
+            Axios.post("http://localhost:3001/register", {
                 username: username,
                 password: password,
-                nama: nama,
-            })
+                name: name,
+            });
+
+            console.log(name, username, password);
         }
-    }
+        // Cek Username & Password
+
+        Navigate('/');
+    };
+    // State Usernaname, Login & Password
+
     return ( 
-        <>
-        <div className="container">
-        <div className="Container py-5">
-            <h1 className="text-muted">Register</h1>
-            <p className="text-muted">
-                Please Create Account To In The Website♥
-            </p>
-            <hr/>
-            <div className="form-grup">
-                <label>Username</label>
-                <input type='text' className="form-control" onChange={(e)=>{setUsername(e.target.value) }} />
-                <b className="text-danger">{validasi}</b>
-             </div>
-               
-     
-            <div className="form-grup">
-                <label>Password</label>
-                <input type='password' className="form-control" onChange={(e)=>{setpassword(e.target.value) }} />
-                <b className="text-danger">{validsi}</b>
-                
+        <div id='boxreg'>
+            <div className='container py-5'>
+                <h1 className='text-dark'><b>Register Form</b></h1>
+                <p className='text-dark'>Please Register to Authentication First!</p>
+                <hr />
+
+                <div className='form-group mt-3'>
+                    <label className='text-muted'>Name</label>
+                    <input className='form-control' type='text' onChange={(e) => { setName(e.target.value) }}></input>
+                    <b id='wrongnamereg' className='text-danger'>{wrongname}</b>
+                </div>
+         
+                <div className='form-group mt-3'>
+                    <label className='text-muted'>Username</label>
+                    <input className='form-control' type='text' onChange={(e) => { setUsername(e.target.value) }}></input>
+                    <b id='wronguserreg' className='text-danger'>{wronguser}</b>
+                </div>
+       
+                <div className='form-group mt-3'>
+                    <label className='text-muted'>Password</label>
+                    <input className='form-control' type='password' onChange={(e) => { setPassword(e.target.value) }}></input>
+                    <b id='wrongpassreg' className='text-danger'>{wrongpass}</b>
+                </div>
+             
+                <div className='form-group'>
+                    <button className='btn btn-warning mt-4 w-100' onClick={register}><b>Register</b></button>
+                </div>
+
+                 <p className='text-muted mt-2 text-center'>
+                    <input type='checkbox'></input> <b className='text-dark'>Remember me</b>
+                </p>
+
+                <p className='text-dark mt-2 text-center'>
+                    <b>Have an account?</b> <Link to='/'><b className=''>Login</b></Link>
+                </p>
             </div>
-            <div className="form-grup">
-                <label>Nama</label>
-                <input type='text' className="form-control" onChange={(e)=>{setnama(e.target.value) }} />
-                <b className="text-danger">{vldsi}</b>
-                
-            </div>
-            <div className="form-group">
-                <button className="btn btn-primary" onClick={Register}>
-                    Register
-                </button>
-            </div>
-            <p className="text-muted">
-                You Have A Account Please Login <Link to='/'> Click Here!!!</Link>
-            </p>
         </div>
-        </div>
-        </>
      );
 }
 

@@ -1,75 +1,93 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import './style.css'
-import { Axios } from "axios";
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './style.css';
+import Axios from "axios";
+// import Welcome from './Welcome';
 
-
+Axios.defaults.withCredentials = true;
 
 function Login() {
-    const [username, setUsername] = useState('')
-    const [password, setpassword] = useState('')
-    const [validasi, setValidasi] = useState('')
-    const [validsi,  setValidsi]  = useState('')
+
+    // State Username, Login & Password
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [wronguser, setWronguser] = useState('');
+    const [wrongpass, setWrongpass] = useState('');
+    const [status, setStatus] = useState('');
     let navigate = useNavigate();
 
     const Login = () => {
-        if(username === '') {
-            setValidasi('Username harus diisi')
-        }else if(password ==='') {
-            setValidsi('Password Harus Di Isi')
-        }else {
-            Axios.post("http://localhost:3000/login", {
+        // console.log (username, password);
+        
+        // Cek Username & Password
+        if (username === '') {
+            setWronguser('Please enter your username!')
+        }
+        
+        else if (password === '') {
+            setWrongpass('Please enter your password!')
+            setWronguser('')
+        }
+
+        else {
+            Axios.post("http://localhost:3001/login", {
                 username: username,
                 password: password,
             }).then((response) => {
-                if (response.data.massage) {
-                    setValidasi(response.data.massage);
-                }else {
+                if (response.data.message) {
+                    setStatus(response.data.message);
+                }
+                else {
                     sessionStorage.setItem('token', response.data);
                     navigate('/dashboard');
                 }
             });
         }
+        // Cek Username & Password
     }
+    // State Usernaname, Login & Password
 
     useEffect(() => {
-        if (sessionStorage.getItem('token') === null) {
+        if (sessionStorage.getItem("token") === null) {
             navigate('/');
-        }else {
+        }
+        else {
             navigate('/dashboard');
         }
     }, [navigate]);
+
     return ( 
-        <>
-        <div className="Container">
-        <div className="container py-5">
-            <h1 className="text-muted">LOGIN</h1>
-            <p className="text-muted">
-                Please Login To Aunthethicate
-            </p>
-            <hr/>
-            <div className="form-grup">
-                <label className="text-muted">Username</label>
-                <input type='text' className="form-control" onChange={(e)=>{setUsername(e.target.value) }} />
+        <div id='boxlog'>
+            <div className='container py-5'>
+                <h1 className='text-dark'><b>Login Form</b></h1>
+                <p className='text-dark'>Please Login to Authentication First!</p>
+                <hr />
+         
+                <div className='form-group mt-3'>
+                    <label className='text-muted'>Username</label>
+                    <input className='form-control' type='text' onChange={(e) => { setUsername(e.target.value) }}></input>
+                    <b id='wronguserlog' className='text-danger'>{wronguser}</b>
                 </div>
-                <b className="text-danger">{validasi}</b>
-     
-            <div className="form-grup">
-                <label className="text-muted">Password</label>
-                <input type='password' className="form-control" onChange={(e)=>{setpassword(e.target.value) }} />
-                <b className="text-danger">{validsi}</b>
+       
+                <div className='form-group mt-3'>
+                    <label className='text-muted'>Password</label>
+                    <input className='form-control' type='password' onChange={(e) => { setPassword(e.target.value) }}></input>
+                     <b id='wrongpasslog' className='text-danger'>{wrongpass}</b>
+                </div>
+             
+                <div className='form-group'>
+                    <button className='btn btn-warning mt-4 w-100' onClick={Login}><b>Log In</b></button>
+                </div>
+
+                 <p className='text-dark mt-1 text-center'>
+                    <Link to='/Register'><b>Forgot the Password??</b></Link>
+                </p>
+
+                <p className='text-dark mt-2 text-center'>
+                    <b>Not have an account?</b> <Link to='/Register'><b>Create New Account</b></Link>
+                </p>
             </div>
-            <div className="form-group">
-                <button className="btn btn-danger" onClick={Login}>
-                    Login
-                </button>
-            </div>
-            <p className="text-muted">
-                Don't have Account? Please Register <Link to='/register'> Click Here!!!</Link>
-            </p>
         </div>
-        </div>
-        </>
      );
 }
 

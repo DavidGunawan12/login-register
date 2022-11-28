@@ -1,0 +1,64 @@
+#boxreg {
+    border: 5px solid white;
+    margin: 50px;
+    width: 800px;
+    height: 615px;
+    position: absolute;
+    
+}
+
+#boxlog {
+    border: 5px solid white;
+    margin: 50px;
+    width: 800px;
+    height: 540px;
+    position: absolute;
+    
+}
+
+.my {
+    font-weight: bold;
+    color: #6495ED;
+}
+
+.sql {
+    color: orange;
+}
+
+#bgjdl {
+    padding: 30px;
+    color: white;
+    text-align: center;
+    border: 2px solid black;
+    /* background-image: url(./images/kira.png); */
+
+    background-size: cover;
+    width: 1000px;
+    box-shadow: 0 5px 30px black;
+    margin-right: 140px;
+}
+
+#bgjdl h1 {
+    
+    /* background-color: transparent; */
+    /* background: linear-gradient(red black); */
+    box-shadow: 0 5px 30px black;
+    padding: 5px;
+}
+
+#bgjdl p {
+    
+    /* background-color: transparent; */
+    box-shadow: 0 5px 30px black;
+    text-align: left;
+    font-weight: bold;
+}
+
+.rct {
+    font-weight: bold;
+    color: #61DBFB;
+}
+
+#body{
+    background-size: cover;
+}
